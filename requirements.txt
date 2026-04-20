@@ -1,0 +1,8 @@
+customtkinter
+psutil
+opencv-python
+pillow
+pillow_heif
+cryptography
+pywin32
+pyinstaller
