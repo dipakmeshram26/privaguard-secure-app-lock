@@ -8,7 +8,7 @@
 
 ### 1. 🔒 Application & Process Locking
 *   **Real-time Monitoring**: Detects and blocks unauthorized application launches instantly.
-*   **System Tools Protection**: Automatically locks **Task Manager, CMD, and PowerShell** to prevent unauthorized system changes or app termination.
+*   **System Tools Protection**: Automatically locks **Task Manager** to prevent unauthorized app termination.
 *   **Custom Passwords**: Set unique passwords for specific applications or use a global Master Password.
 
 ### 2. 📂 File & Folder Vault
