@@ -1,74 +1,58 @@
-# 🛡️ PrivaGuard: Secure Windows App & File Locker
+# 🛡️ PrivaGuard: The Ultimate Windows Security & Privacy Suite
 
-**PrivaGuard** is an advanced, enterprise-grade security tool for Windows designed to protect your privacy by locking applications, encrypting files/folders, and monitoring system activity with AI-driven intruder detection.
+**PrivaGuard** is a high-performance, enterprise-grade security application designed to provide an unbreakable layer of protection for your Windows environment. It combines process monitoring, file encryption, and AI-driven intruder detection to ensure your data stays private and your system stays tamper-proof.
 
-![PrivaGuard Logo](assets/logo_banner.png)
-
-## 🚀 Key Features
-
-### 1. 🔒 Application & Process Locking
-*   **Real-time Monitoring**: Detects and blocks unauthorized application launches instantly.
-*   **System Tools Protection**: Automatically locks **Task Manager** to prevent unauthorized app termination.
-*   **Custom Passwords**: Set unique passwords for specific applications or use a global Master Password.
-
-### 2. 📂 File & Folder Vault
-*   **Secure Locking**: Uses Windows System integration to lock sensitive folders and files.
-*   **Stealth Mode**: Folders become inaccessible and hidden from the standard file explorer until unlocked.
-
-### 3. 📸 AI Intruder Detection
-*   **Webcam Capture**: Stealthily captures a photo of anyone attempting to access locked apps with an incorrect password (after 3 failed attempts).
-*   **Email Alerts**: Sends instant security notifications with intruder photos to your verified email address.
-
-### 4. 🛡️ Ultimate Persistence (Anti-Kill)
-*   **Guardian Process**: A secondary watchdog process (**WinSysCheck**) ensures that the main security engine is never terminated. If killed, it restarts within 1-2 seconds.
-*   **High-Priority Startup**: Integrated with Windows Task Scheduler for instant, forceful startup upon user logon.
-
-### 5. 📊 Security Audit Logs
-*   **Detailed Records**: Keeps a local history of all security events, failed login attempts, and evidence captured.
-*   **Tamper-Proof**: Logs require the Master Password to be viewed or cleared.
+![PrivaGuard Banner](assets/logo_banner.png)
 
 ---
 
-## 🛠️ Requirements
+## 🌟 Deep Feature Analysis
 
-- **Operating System**: Windows 10 or 11
-- **Hardware**: 
-  - Integrated or External Webcam (for Intruder Detection)
-  - Internet Connection (for Email Alerts)
-- **Software**:
-  - Python 3.10+ (if running from source)
+### 1. 🔒 Intelligent Application Locking
+**How it works:**
+PrivaGuard runs a high-frequency background monitor that polls the active process list every 0.3 seconds. When a user attempts to launch a "Locked App," the system intercepts the process immediately. Instead of just killing it, it suspends the process and overlays a **Secure Password Vault** UI.
+*   **Process Interception**: Uses `psutil` for lightning-fast detection.
+*   **Custom Per-App Passwords**: You can set different passwords for different apps (e.g., a complex one for Chrome and a simple one for Games).
+*   **Fake Crash Mode**: (Optional) Instead of asking for a password, the app shows a fake "Windows has encountered an error" message to deter casual snoopers.
 
-## 📦 Dependencies
+### 2. 📂 Stealth File & Folder Vault
+**How it works:**
+Our folder locker doesn't just "hide" files; it manipulates system-level attributes and permissions to make folders inaccessible to the standard Windows Explorer.
+*   **Invisible Mode**: Locked folders are stripped of their directory status in the eye of the OS, making them appear as "System Protected" files that cannot be opened or deleted.
+*   **No Data Loss**: Your data is never moved or modified, only the "access gates" are locked at the kernel level.
 
-Install the required libraries using pip:
-```bash
-pip install customtkinter psutil opencv-python pillow pillow_heif cryptography
-```
+### 3. 📸 AI Intruder Capture (The Silent Guardian)
+**How it works:**
+If an unauthorized person attempts to access a locked app or the PrivaGuard dashboard, the system tracks failed attempts. 
+*   **Threshold Trigger**: After exactly **3 failed attempts**, the system silently activates the primary webcam.
+*   **Stealth Capture**: An image is captured asynchronously (without freezing the UI) and saved in an encrypted local directory.
+*   **Visual Evidence**: Every log entry includes a timestamp, the targeted application, and the high-resolution photo of the intruder.
 
-## 🚀 Installation & Usage
+### 4. 📧 Real-Time Email Security Alerts
+**How it works:**
+PrivaGuard integrates with secure SMTP protocols to provide remote monitoring.
+*   **Instant Notifications**: If an intruder is detected, an email is sent to your verified address within seconds.
+*   **Evidence Attachment**: The intruder's photo is automatically attached to the email, allowing you to identify the culprit even if you are away from your PC.
+*   **OTP Verification**: High-security actions (like changing the Master Password or Alert Email) require an OTP (One Time Password) sent to your mail.
 
-1. **Clone the Repo**:
-   ```bash
-   git clone https://github.com/yourusername/privaguard-secure-app-lock.git
-   ```
-2. **Run the App**:
-   ```bash
-   python main.py
-   ```
-3. **Build Executables**:
-   Run the PyInstaller specs to generate `.exe` files:
-   ```bash
-   pyinstaller --noconfirm AppLocker.spec
-   ```
+### 5. 🛡️ Anti-Kill & Self-Protection (The "Unstoppable" Logic)
+**How it works:**
+This is what makes PrivaGuard better than standard lockers. It uses a **Mutual Protection Protocol**.
+*   **The Guardian (WinSysCheck)**: A separate, lightweight process that monitors `AppLocker.exe`. If the main app is force-killed via Task Manager or CMD, the Guardian restarts it within 1 second.
+*   **Task Manager Interception**: Since Task Manager is the primary tool used to kill security apps, PrivaGuard places an **Execution Lock** on `taskmgr.exe`. You must enter the Master Password just to open Task Manager.
+*   **CMD/PowerShell Safety**: You can use terminals freely, but they cannot be used to terminate PrivaGuard processes.
+
+### 6. 🚀 Zero-Delay Instant Startup
+**How it works:**
+Unlike most apps that use the Registry "Run" key (which Windows can delay for 10-20 seconds), PrivaGuard uses the **Windows Task Scheduler**.
+*   **Highest Privileges**: The app launches with "System/Admin" privileges automatically at logon.
+*   **Instant Protection**: The monitor starts working even before your desktop icons finish loading.
 
 ---
 
 ## 🔐 Security & Privacy
-*   **Local Storage**: All passwords and configurations are stored locally on your machine using SHA-256 hashing.
-*   **No Data Collection**: We do not store any of your data, photos, or passwords on our servers.
-
-## ⚖️ License
-This project is licensed under the **MIT License**.
+*   **Zero Data Collection**: We do not store any of your data, photos, or passwords on our servers. Everything stays on your PC.
+*   **Encrypted Local Storage**: All sensitive data is stored using industry-standard hashing and encryption.
 
 ---
-*Developed with ❤️ for Privacy & Security.*
+*Built for those who value their digital privacy.*
