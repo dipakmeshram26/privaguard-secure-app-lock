@@ -54,5 +54,8 @@ Unlike most apps that use the Registry "Run" key (which Windows can delay for 10
 *   **Zero Data Collection**: We do not store any of your data, photos, or passwords on our servers. Everything stays on your PC.
 *   **Encrypted Local Storage**: All sensitive data is stored using industry-standard hashing and encryption.
 
+## 🔐 Security & Privacy
+*   **Zero Data Collection**: We do not store any of your data, photos, or passwords on our servers. Everything stays on your PC.
+*   **Encrypted Local Storage**: All sensitive data is stored using industry-standard hashing and encryption.
 ---
 *Built for those who value their digital privacy.*
