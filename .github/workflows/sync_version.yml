@@ -3,6 +3,16 @@ name: Auto-Sync Version to Website
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      test_tag:
+        description: 'Version Tag for testing'
+        required: true
+        default: '2.2.0'
+      test_notes:
+        description: 'What is new (release notes)'
+        required: false
+        default: 'Test sync from GitHub Action'
 
 permissions:
   contents: write
@@ -18,7 +28,7 @@ jobs:
           token: ${{ secrets.SYNC_TOKEN }}
           path: website
 
-      - name: Update version.json
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
@@ -31,10 +41,12 @@ jobs:
           import re
           from datetime import datetime
 
-          tag = os.environ.get('RELEASE_TAG', '').lstrip('v')
-          body = os.environ.get('RELEASE_BODY', '')
+          # Get tag from release event or manual dispatch input
+          tag = os.environ.get('RELEASE_TAG', '') or os.environ.get('MANUAL_TAG', '')
+          tag = tag.lstrip('v').strip()
           
-          # Parse release notes into bullet points if provided
+          body = os.environ.get('RELEASE_BODY', '') or os.environ.get('MANUAL_NOTES', '')
+          
           notes = []
           for line in body.splitlines():
               line = line.strip()
@@ -57,11 +69,14 @@ jobs:
           with open(file_path, 'w', encoding='utf-8') as f:
               json.dump(data, f, indent=2)
 
-          print(f"Successfully updated version.json to version: {tag}")
+          print(f"Successfully updated version.json to version: {data['latest_version']}")
+          print(f"What's new: {data['whats_new']}")
           EOF
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
           RELEASE_BODY: ${{ github.event.release.body }}
+          MANUAL_TAG: ${{ github.event.inputs.test_tag }}
+          MANUAL_NOTES: ${{ github.event.inputs.test_notes }}
 
       - name: Commit and Push Changes to Website
         run: |
@@ -69,5 +84,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add version.json
-          git diff-index --quiet HEAD || git commit -m "Auto-update version.json to ${{ github.event.release.tag_name }} [skip ci]"
+          git diff-index --quiet HEAD || git commit -m "Auto-update version.json to ${{ github.event.release.tag_name || github.event.inputs.test_tag }} [skip ci]"
           git push origin main
