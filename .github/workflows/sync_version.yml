@@ -1,0 +1,73 @@
+name: Auto-Sync Version to Website
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  update-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Website Repository
+        uses: actions/checkout@v4
+        with:
+          repository: dipakmeshram26/privaguard-website
+          token: ${{ secrets.SYNC_TOKEN }}
+          path: website
+
+      - name: Update version.json
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Sync Release Info to version.json
+        run: |
+          python - << 'EOF'
+          import json
+          import os
+          import re
+          from datetime import datetime
+
+          tag = os.environ.get('RELEASE_TAG', '').lstrip('v')
+          body = os.environ.get('RELEASE_BODY', '')
+          
+          # Parse release notes into bullet points if provided
+          notes = []
+          for line in body.splitlines():
+              line = line.strip()
+              clean_line = re.sub(r'^[-*•]\s*|^\d+\.\s*', '', line).strip()
+              if clean_line:
+                  notes.append(clean_line)
+
+          file_path = 'website/version.json'
+          with open(file_path, 'r', encoding='utf-8') as f:
+              data = json.load(f)
+
+          if tag:
+              data['latest_version'] = tag
+          
+          data['release_date'] = datetime.now().strftime('%Y-%m-%d')
+          
+          if notes:
+              data['whats_new'] = notes[:5]
+
+          with open(file_path, 'w', encoding='utf-8') as f:
+              json.dump(data, f, indent=2)
+
+          print(f"Successfully updated version.json to version: {tag}")
+          EOF
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+
+      - name: Commit and Push Changes to Website
+        run: |
+          cd website
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json
+          git diff-index --quiet HEAD || git commit -m "Auto-update version.json to ${{ github.event.release.tag_name }} [skip ci]"
+          git push origin main
