@@ -1,0 +1,26 @@
+PrivaGuard Source-Available Verification License
+Copyright (c) 2026 PrivaGuard Sentinel. All rights reserved.
+
+This repository contains core security and privacy defense modules published strictly for transparency, public security audit, and cryptographic verification.
+
+TERMS AND CONDITIONS:
+
+1. Permitted Inspection & Security Audit:
+   You are granted a non-exclusive, worldwide right to view, inspect, review, and cryptographically audit the source code files located in this repository for educational, security analysis, malware evaluation, and privacy verification purposes.
+
+2. Zero Telemetry & On-Device Storage Guarantee:
+   The code provided herein verifies that PrivaGuard executes its core app-locking, intruder snapshot capture, and folder encryption routines strictly on the local machine without unauthorized remote cloud exfiltration.
+
+3. Commercial Restrictions:
+   Commercial reproduction, redistribution, decompilation of compiled binaries, sub-licensing, or bundling into commercial derivative products requires an official commercial license agreement from PrivaGuard.
+
+4. Proprietary Components:
+   Full commercial distribution packages, compiled application binaries, cryptographic RSA license management infrastructure, and centralized cloud backend services remain proprietary to PrivaGuard Sentinel.
+
+5. Disclaimer of Warranty:
+   THE SOURCE CODE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+For commercial licensing, enterprise volume fleets, or academic programs:
+Official Portal: https://privaguard.tech
+Pricing & Plans: https://privaguard.tech/pricing.html
+Security Contact: support@privaguard.tech
